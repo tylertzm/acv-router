@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-10-31T15:47:50.485009",
+  "source_csv": "data/dach_handwerker_hvac_828_leads.csv",
+  "total_companies": 829,
+  "threshold_acv": 26100,
+  "motions": {
+    "high_touch": 62,
+    "automated": 767,
+    "welcome": 0,
+    "check": 0
+  },
+  "config": {
+    "reps": 2,
+    "calls_per_rep": 30,
+    "capacity": 60,
+    "base_monthly": 200,
+    "per_office_seat": 100,
+    "per_technician": 25
+  }
+}

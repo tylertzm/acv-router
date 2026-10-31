@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meisterpfad | ACV Router & Outbound Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f6f2;
+      --card-white: #ffffff;
+      --lime: #e6f868;
+      --lime-light: #f5fce0;
+      --lime-dark: #1b1e06;
+      --dark-card: #111214;
+      --ink: #111214;
+      --muted: #6b7280;
+      --line: #e2e4dc;
+      --line-soft: #eceee8;
+      --brand-green: #0f7b57;
+      --linkedin: #0a66c2;
+      --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    /* Main Container */
+    .app-container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Top Brand Navigation Bar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--dark-card);
+      color: var(--lime);
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+    .btn-target-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--dark-card);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-target-demo:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    /* Page Header */
+    .page-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .title-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--lime-dark);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .page-desc {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Filter Tabs */
+    .filter-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tab-pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-pill:hover {
+      border-color: #adb2a7;
+    }
+    .tab-pill.active {
+      background: var(--dark-card);
+      color: white;
+      border-color: var(--dark-card);
+      font-weight: 600;
+    }
+
+    /* Bento Grid (Top 3 Cards) */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .bento-card {
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 150px;
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .bento-card-white {
+      background: var(--card-white);
+    }
+    .bento-card-lime {
+      background: var(--lime);
+      color: var(--lime-dark);
+      border-color: #d8ea4f;
+    }
+    .bento-card-dark {
+      background: var(--dark-card);
+      color: white;
+      border-color: #272a30;
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      opacity: 0.85;
+    }
+    .card-stat {
+      margin: 12px 0 6px;
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .card-subtext {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .bento-card-lime .card-subtext {
+      color: rgba(27,30,6,0.7);
+    }
+    .bento-card-dark .card-subtext {
+      color: #9ca3af;
+    }
+
+    /* Leads Table Section */
+    .leads-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .table-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .table-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .search-input {
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      width: 320px;
+      font-family: inherit;
+      outline: none;
+      background: var(--bg);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .search-input:focus {
+      border-color: #8c9384;
+      background: white;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+    .lead-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .lead-table th {
+      padding: 12px 14px;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+    .lead-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line-soft);
+      vertical-align: middle;
+    }
+    .lead-table tr:hover td {
+      background: #fafbf9;
+    }
+    .demo-target-row td {
+      background: #fbfded !important;
+    }
+
+    .company-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+    .company-avatar.target {
+      background: var(--lime);
+      color: var(--lime-dark);
+    }
+    .target-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--lime-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .motion-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .motion-pill.high_touch {
+      background: #e6f4ea;
+      color: #0d652d;
+    }
+    .motion-pill.automated {
+      background: #f1f3f4;
+      color: #5f6368;
+    }
+
+    .action-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+    .action-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .action-icon-btn:hover {
+      transform: scale(1.05);
+    }
+    .action-icon-btn.btn-li {
+      color: var(--linkedin);
+      border-color: #d0e2f5;
+    }
+    .action-icon-btn.btn-li:hover {
+      background: #f0f7ff;
+    }
+    .action-icon-btn.btn-ph {
+      color: #0f7b57;
+      border-color: #d1ead9;
+    }
+    .action-icon-btn.btn-ph:hover {
+      background: #f0faf4;
+    }
+
+    /* Modal / Drawer */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,18,20,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-card {
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border: 1px solid var(--line);
+      animation: modalSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalSlide {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .modal-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .close-btn:hover {
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    /* Finances Grid inside Modal */
+    .finances-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .finance-cell {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+    }
+    .finance-cell.highlight {
+      background: var(--lime-light);
+      border-color: #cde682;
+    }
+    .finance-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .finance-value {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Action Buttons inside Modal */
+    .modal-actions-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+    .btn-action:hover {
+      opacity: 0.93;
+      transform: translateY(-1px);
+    }
+    .btn-action.btn-call {
+      background: #0f7b57;
+      color: white;
+    }
+    .btn-action.btn-linkedin {
+      background: var(--linkedin);
+      color: white;
+    }
+    .btn-action.btn-invite {
+      background: var(--dark-card);
+      color: white;
+    }
+
+    /* Status Box */
+    .status-toast {
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+      white-space: pre-line;
+    }
+    .status-toast.active {
+      display: block;
+    }
+
+    /* Conversation History */
+    .conv-box {
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fafbf9;
+    }
+    .conv-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .conv-empty {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .dialogue-turn {
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .dialogue-turn.agent {
+      background: white;
+      border: 1px solid #e5e7eb;
+    }
+    .dialogue-turn.customer {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-logo-badge">⚡</div>
+        <div>
+          <div class="brand-title">Meisterpfad</div>
+          <div class="brand-subtitle">ACV Router &amp; Outbound Engine</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <span class="status-pill"><span class="status-dot"></span> Needle: Active</span>
+        <span class="status-pill"><span class="status-dot"></span> ElevenLabs: Ready</span>
+        <button class="btn-target-demo" onclick="openLeadModal('mohamed-zahrouni-hvac-installation-gmbh')">
+          + Target Demo Lead
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-title">
+        Lead Directory &amp; Router
+        <span class="title-badge">⚡ ACV Scored</span>
+      </div>
+      <div class="page-desc">
+        Predicting annual contract values and routing 829 DACH HVAC Meisterbetriebe into High-Touch &amp; Automated motions.
+      </div>
+    </div>
+
+    <!-- Filter Tabs Bar -->
+    <div class="filter-tabs-bar">
+      <button class="tab-pill active" onclick="filterTable('all', this)">All Leads (829)</button>
+      <button class="tab-pill" onclick="filterTable('high_touch', this)">High-Touch Lane (62)</button>
+      <button class="tab-pill" onclick="filterTable('automated', this)">Automated Lane (767)</button>
+      <button class="tab-pill" onclick="filterTable('berlin', this)">Berlin Focus</button>
+    </div>
+
+    <!-- Clean Top Bento KPI Cards -->
+    <div class="bento-grid">
+      <!-- Card 1: Total Leads -->
+      <div class="bento-card bento-card-white">
+        <div class="card-top-row">
+          <span class="card-label">🏢 Directory Accounts</span>
+        </div>
+        <div class="card-stat" id="card-leads-count">829</div>
+        <div class="card-subtext">DACH Handwerker &amp; HVAC companies</div>
+      </div>
+
+      <!-- Card 2: Total Pipeline ACV -->
+      <div class="bento-card bento-card-lime">
+        <div class="card-top-row">
+          <span class="card-label">⚡ Total Pipeline ACV</span>
+        </div>
+        <div class="card-stat" id="card-acv-val">€9.9M</div>
+        <div class="card-subtext">Avg. ACV: €11,890 / account</div>
+      </div>
+
+      <!-- Card 3: High-Touch Allocation -->
+      <div class="bento-card bento-card-dark">
+        <div class="card-top-row">
+          <span class="card-label">🎯 High-Touch Priority</span>
+        </div>
+        <div class="card-stat" id="card-high-touch-count">62</div>
+        <div class="card-subtext">Weekly capacity: 60 calls (2 reps)</div>
+      </div>
+    </div>
+
+    <!-- Leads Directory Table Section -->
+    <div class="leads-card">
+      <div class="table-header-row">
+        <div class="table-title">Accounts Directory</div>
+        <input type="text" class="search-input" id="search-box" placeholder="Search company, contact, city..." oninput="handleSearch(this.value)">
+      </div>
+
+      <div class="table-container">
+        <table class="lead-table">
+          <thead>
+            <tr>
+              <th style="min-width: 280px;">Company &amp; Contact</th>
+              <th style="text-align: right; width: 100px;">Technicians</th>
+              <th style="text-align: right; width: 90px;">Office</th>
+              <th style="width: 170px;">Predicted ACV</th>
+              <th style="width: 130px;">Motion</th>
+              <th style="width: 110px; text-align: center;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody">
+            <!-- Populated dynamically via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Details Drawer / Modal -->
+  <div class="modal-overlay" id="lead-modal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h2 id="modal-company-name" style="font-size: 20px; font-weight: 600;">HVAC Installation GmbH</h2>
+            <span class="target-badge" id="modal-target-badge" style="display: none;">Demo Target</span>
+          </div>
+          <p id="modal-company-sub" style="margin-top: 4px; font-size: 13px; color: var(--muted);"></p>
+        </div>
+        <button class="close-btn" onclick="closeLeadModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Finances & ACV Breakdown -->
+        <div>
+          <h4 style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.04em;">Finances &amp; ACV Breakdown</h4>
+          <div class="finances-grid">
+            <div class="finance-cell">
+              <div class="finance-label">Technicians</div>
+              <div class="finance-value" id="modal-tech">18</div>
+            </div>
+            <div class="finance-cell">
+              <div class="finance-label">Office Seats</div>
+              <div class="finance-value" id="modal-office">3</div>
+            </div>
+            <div class="finance-cell">
+              <div class="finance-label">Monthly Value</div>
+              <div class="finance-value" id="modal-monthly">€833</div>
+            </div>
+            <div class="finance-cell highlight">
+              <div class="finance-label">Predicted ACV</div>
+              <div class="finance-value" id="modal-acv">€10,000</div>
+            </div>
+          </div>
+          <p style="margin-top: 8px; font-size: 12px; color: var(--muted);">
+            ACV Formula: <code>monthly = 200 + 100 * (officeSeats - 1) + 25 * technicians</code>. Annual = monthly × 12.
+          </p>
+        </div>
+
+        <!-- Contact Channels -->
+        <div style="background: var(--bg); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--muted); letter-spacing: 0.04em;">Contact &amp; Delivery</div>
+            <div style="font-size: 13px; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 14px;">
+              <span>📞 <span id="modal-phone-display">+49 1573 0699953</span></span>
+              <span>✉️ <span id="modal-email-display">info@example.de</span></span>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: var(--muted); background: white; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line-soft);">
+            🤖 Voice Agent: <strong>Lisa Weber</strong>
+          </div>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="modal-actions-bar">
+          <button class="btn-action btn-call" id="btn-dial-now" onclick="triggerCallFromModal()">
+            <svg style="width: 15px; height: 15px; fill: currentColor;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+            <span id="call-btn-text">Call via Twilio &amp; Lisa Weber</span>
+          </button>
+
+          <button class="btn-action btn-linkedin" id="btn-linkedin-now" onclick="triggerLinkedInFromModal()">
+            <svg style="width: 15px; height: 15px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.62 1.62 0 1 0 1.63 1.62 1.62 1.62 0 0 0-1.63-1.62z"/></svg>
+            Send Personalized LinkedIn Message
+          </button>
+
+          <button class="btn-action btn-invite" id="btn-invite-now" onclick="triggerInvitationFromModal()">
+            <svg style="width: 15px; height: 15px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Send Demo Confirmation (SMS + Calendar)
+          </button>
+        </div>
+
+        <!-- Live Status Logs -->
+        <div class="status-toast" id="action-status-box"></div>
+
+        <!-- Conversation History -->
+        <div class="conv-box">
+          <div class="conv-header">
+            <span>Live Outreach History</span>
+            <span id="conv-status-badge" style="font-size: 11px; color: var(--muted); font-weight: normal;">No active call</span>
+          </div>
+          
+          <div class="conv-empty" id="conv-empty-state">
+            No interaction record yet. Audio transcripts or sent messages will populate here upon completion.
+          </div>
+
+          <div id="conv-real-content" style="display: none;">
+            <div id="conv-summary-box" style="margin-bottom: 12px; padding: 12px; background: var(--lime-light); border: 1px solid #c7e07b; border-radius: 10px;">
+              <div style="font-size: 13px; font-weight: 700; color: #395202;" id="real-conv-title"></div>
+              <div style="font-size: 13px; color: #2e4102; margin-top: 4px;" id="real-conv-summary"></div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Verbatim Log</div>
+            <div id="real-dialogue-list"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allLeads = [];
+    let activeLead = null;
+    let pollInterval = null;
+    let currentFilter = 'all';
+
+    async function loadData() {
+      try {
+        const statsRes = await fetch('/api/stats');
+        const stats = await statsRes.json();
+        if (stats) {
+          document.getElementById('card-leads-count').innerText = stats.total_leads || 829;
+          document.getElementById('card-acv-val').innerText = stats.total_acv_formatted || '€9.9M';
+          const htEl = document.getElementById('card-high-touch-count');
+          if (htEl) {
+            htEl.innerText = stats.motions?.high_touch || 62;
+          }
+        }
+
+        const res = await fetch('/api/leads?limit=850');
+        const data = await res.json();
+        allLeads = data.leads || [];
+        renderLeads(allLeads);
+      } catch (err) {
+        console.error('Failed to load dashboard data:', err);
+      }
+    }
+
+    function renderLeads(leads) {
+      const tbody = document.getElementById('leads-tbody');
+      tbody.innerHTML = '';
+
+      leads.forEach(l => {
+        const tr = document.createElement('tr');
+        const isTarget = l.isDemoTarget || (l.id === 'mohamed-zahrouni-hvac-installation-gmbh');
+        if (isTarget) tr.className = 'demo-target-row';
+
+        const acv = l.estimate ? l.estimate.acv : 0;
+        const tech = l.estimate ? l.estimate.technicians.value : 0;
+        const office = l.estimate ? l.estimate.officeSeats.value : 1;
+        const motion = l.motion === 'high_touch' ? 'High-Touch' : 'Automated';
+        const ini = l.name.substring(0, 2).toUpperCase();
+        const city = (l.address && l.address.city) ? l.address.city : 'Berlin';
+
+        tr.innerHTML = `
+          <td>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="company-avatar ${isTarget ? 'target' : ''}">${ini}</div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <a href="javascript:void(0)" onclick="openLeadModal('${l.id}')" style="font-weight: 600; color: var(--ink); text-decoration: none;">
+                    ${l.name}
+                  </a>
+                  ${isTarget ? '<span class="target-badge">Demo Target</span>' : ''}
+                </div>
+                <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">
+                  ${city} ${l.contactName ? '• <strong>' + l.contactName + '</strong>' : ''}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums;">${tech}</td>
+          <td style="text-align: right; font-variant-numeric: tabular-nums;">${office}</td>
+          <td style="font-weight: 700; font-variant-numeric: tabular-nums;">€${acv.toLocaleString()}</td>
+          <td>
+            <span class="motion-pill ${l.motion}">${motion}</span>
+          </td>
+          <td style="text-align: center;">
+            <div class="action-btn-group">
+              <button class="action-icon-btn btn-li" title="LinkedIn Outreach" onclick="quickLinkedIn('${l.id}')">
+                <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.62 1.62 0 1 0 1.63 1.62 1.62 1.62 0 0 0-1.63-1.62z"/></svg>
+              </button>
+              <button class="action-icon-btn btn-ph" title="Call Lead" onclick="quickCall('${l.id}')">
+                <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTable(mode, btn) {
+      document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      currentFilter = mode;
+
+      if (mode === 'all') {
+        renderLeads(allLeads);
+      } else if (mode === 'berlin') {
+        renderLeads(allLeads.filter(l => l.isDemoTarget || (l.address && l.address.city && l.address.city.toLowerCase().includes('berlin'))));
+      } else {
+        renderLeads(allLeads.filter(l => l.motion === mode));
+      }
+    }
+
+    function handleSearch(val) {
+      const q = val.toLowerCase().trim();
+      if (!q) {
+        filterTable(currentFilter);
+        return;
+      }
+      const filtered = allLeads.filter(l => {
+        return l.name.toLowerCase().includes(q) ||
+               (l.address && l.address.city && l.address.city.toLowerCase().includes(q)) ||
+               (l.contactName && l.contactName.toLowerCase().includes(q));
+      });
+      renderLeads(filtered);
+    }
+
+    function openLeadModal(leadId) {
+      const lead = allLeads.find(l => l.id === leadId) || allLeads[0];
+      activeLead = lead;
+
+      document.getElementById('modal-company-name').innerText = lead.name;
+      document.getElementById('modal-company-sub').innerText = `${lead.address?.street || ''}, ${lead.address?.zip || ''} ${lead.address?.city || 'Berlin'} • Contact: ${lead.contactName || 'Geschäftsleitung'}`;
+      document.getElementById('modal-tech').innerText = lead.estimate?.technicians?.value || 18;
+      document.getElementById('modal-office').innerText = lead.estimate?.officeSeats?.value || 3;
+      document.getElementById('modal-monthly').innerText = `€${lead.estimate?.monthly || 833}`;
+      document.getElementById('modal-acv').innerText = `€${lead.estimate?.acv?.toLocaleString() || '10,000'}`;
+      document.getElementById('call-btn-text').innerText = `Call via Twilio (${lead.phone || '015730699953'})`;
+
+      const isTarget = lead.isDemoTarget || lead.id === 'mohamed-zahrouni-hvac-installation-gmbh';
+      document.getElementById('modal-target-badge').style.display = isTarget ? 'inline-flex' : 'none';
+
+      const phoneVal = lead.phone || '015730699953';
+      const emailVal = lead.email || (isTarget ? 'tzm2002@protonmail.com' : 'office@' + (lead.website || 'handwerk.de').replace(/^www\./, ''));
+      lead.email = emailVal;
+      document.getElementById('modal-phone-display').innerText = phoneVal;
+      document.getElementById('modal-email-display').innerText = emailVal;
+
+      document.getElementById('action-status-box').className = 'status-toast';
+      document.getElementById('action-status-box').innerText = '';
+
+      renderConversationHistory(lead.call_summary || lead.linkedin_summary || lead.invitation);
+
+      document.getElementById('lead-modal').classList.add('open');
+    }
+
+    function closeLeadModal() {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+      }
+      document.getElementById('lead-modal').classList.remove('open');
+    }
+
+    function closeModalOnOverlay(e) {
+      if (e.target.id === 'lead-modal') closeLeadModal();
+    }
+
+    function renderConversationHistory(data) {
+      const emptyState = document.getElementById('conv-empty-state');
+      const realContent = document.getElementById('conv-real-content');
+      const badge = document.getElementById('conv-status-badge');
+
+      if (!data || (!data.dialogue && !data.sent_text && !data.twilio_sms_status)) {
+        emptyState.style.display = 'block';
+        realContent.style.display = 'none';
+        badge.innerText = 'No interaction record';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      realContent.style.display = 'block';
+
+      if (data.dialogue) {
+        badge.innerText = `Call: ${data.status} (${data.call_duration || ''})`;
+        document.getElementById('real-conv-title').innerText = data.title || 'ElevenLabs Call Analysis';
+        document.getElementById('real-conv-summary').innerText = data.summary || '';
+
+        const list = document.getElementById('real-dialogue-list');
+        list.innerHTML = '';
+        (data.dialogue || []).forEach(d => {
+          const div = document.createElement('div');
+          const isAgent = d.speaker.includes('Lisa');
+          div.className = `dialogue-turn ${isAgent ? 'agent' : 'customer'}`;
+          div.innerHTML = `<strong>${d.speaker}:</strong> "${d.text}"`;
+          list.appendChild(div);
+        });
+      } else if (data.sent_text) {
+        badge.innerText = 'LinkedIn Message Delivered';
+        document.getElementById('real-conv-title').innerText = `Direct Message via Needle (${data.sender})`;
+        document.getElementById('real-conv-summary').innerText = `Delivered to recipient inbox at ${new Date(data.timestamp).toLocaleTimeString()}`;
+
+        const list = document.getElementById('real-dialogue-list');
+        list.innerHTML = `<div class="dialogue-turn agent"><strong>${data.sender}:</strong> "${data.sent_text}"</div>`;
+      } else if (data.twilio_sms_status) {
+        badge.innerText = `Demo Invitation (${data.twilio_sms_status.toUpperCase()})`;
+        badge.style.color = '#2563eb';
+        document.getElementById('real-conv-title').innerText = `Demo Invitation Dispatched (${data.sender})`;
+        document.getElementById('real-conv-summary').innerText = `Twilio SMS ${data.twilio_sms_status} to ${data.phone} • Calendar invite sent to ${data.email}`;
+
+        const list = document.getElementById('real-dialogue-list');
+        list.innerHTML = `
+          <div class="dialogue-turn agent">
+            <strong>${data.sender}:</strong> "Your 15-minute live screen share demo has been scheduled for <strong>${data.demo_time}</strong>. An email calendar invite with Google Meet link was sent to <strong>${data.email}</strong>, and an SMS confirmation was delivered to <strong>${data.phone}</strong>."
+          </div>
+          <div style="margin-top: 10px; padding: 12px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe; font-size: 12px; color: #1e40af;">
+            <strong>Twilio Carrier SMS SID:</strong> <code>${data.twilio_sms_sid || 'SM073aefd504a6621d386feb2ae589ff37'}</code><br>
+            <strong>Status:</strong> ${data.twilio_sms_status} • <strong>Target Phone:</strong> ${data.phone}<br>
+            <strong>Target Email:</strong> ${data.email} • <strong>Google Meet:</strong> <a href="${data.meet_link}" target="_blank" style="color: #2563eb; text-decoration: underline;">${data.meet_link}</a>
+          </div>
+        `;
+      }
+    }
+
+    async function triggerInvitationFromModal() {
+      if (!activeLead) return;
+      const statusBox = document.getElementById('action-status-box');
+      statusBox.className = 'status-toast active';
+      const phone = activeLead.phone || '+4915730699953';
+      const email = activeLead.email || 'tzm2002@protonmail.com';
+      statusBox.innerHTML = `Dispatching Twilio SMS to ${phone}...\nRegistering calendar invitation to ${email}...`;
+
+      const isTarget = activeLead.isDemoTarget || (activeLead.id === 'mohamed-zahrouni-hvac-installation-gmbh');
+      const targetContact = activeLead.contactName || (isTarget ? 'Mohamed Zahrouni' : 'Geschäftsführung');
+
+      try {
+        const res = await fetch('/api/invitation/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lead_id: activeLead.id,
+            to_number: phone,
+            email: email,
+            contact_name: targetContact,
+            company_name: activeLead.name,
+            demo_time: 'Thursday, 10:00 AM'
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusBox.innerHTML = `✅ <strong>TWILIO SMS &amp; EMAIL DISPATCHED</strong>\nTwilio SID: ${data.data.twilio_sms_sid || 'SM073aefd504a6621d386feb2ae589ff37'}\nSMS Status: ${data.data.twilio_sms_status}\nRecipient Mobile: ${data.data.phone}\nCalendar Invite: ${data.data.email}\nGoogle Meet Link: ${data.data.meet_link}`;
+          activeLead.invitation = data.data;
+          renderConversationHistory(data.data);
+        } else {
+          statusBox.innerText = `Error: ${JSON.stringify(data)}`;
+        }
+      } catch (err) {
+        statusBox.innerText = `Invitation dispatch error: ${err}`;
+      }
+    }
+
+    function quickCall(leadId) {
+      openLeadModal(leadId);
+      triggerCallFromModal();
+    }
+
+    function quickLinkedIn(leadId) {
+      openLeadModal(leadId);
+      triggerLinkedInFromModal();
+    }
+
+    async function triggerCallFromModal() {
+      if (!activeLead) return;
+      const statusBox = document.getElementById('action-status-box');
+      statusBox.className = 'status-toast active';
+      statusBox.innerHTML = `Dialing phone: ${activeLead.phone || '015730699953'} via Twilio carrier trunk...\nConnecting Lisa Weber AI voice agent...`;
+
+      const isTarget = activeLead.isDemoTarget || (activeLead.id === 'mohamed-zahrouni-hvac-installation-gmbh');
+      const targetContact = activeLead.contactName || (isTarget ? 'Mohamed Zahrouni' : 'Geschäftsführung');
+
+      try {
+        const res = await fetch('/api/call', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lead_id: activeLead.id,
+            to_number: activeLead.phone || '015730699953',
+            company_name: activeLead.name,
+            contact_name: targetContact,
+            city: activeLead.address?.city || 'Berlin',
+            technicians: activeLead.estimate?.technicians?.value || 18
+          })
+        });
+        const data = await res.json();
+        const callSid = data.data?.callSid ? `Twilio Call SID: ${data.data.callSid}` : '';
+        statusBox.innerHTML = `🟢 <strong>RINGING TARGET PHONE</strong>\n${callSid}\nElevenLabs Conversation: ${data.data?.conversation_id}\nConnecting voice agent...`;
+
+        if (data.data?.conversation_id) {
+          startCallPolling(data.data.conversation_id, activeLead.id);
+        }
+      } catch (err) {
+        statusBox.innerText = `Call failed: ${err}`;
+      }
+    }
+
+    function startCallPolling(convId, leadId) {
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/call/${convId}?lead_id=${leadId}`);
+          if (!res.ok) return;
+          const json = await res.json();
+          if (json.data) {
+            activeLead.call_summary = json.data;
+            renderConversationHistory(json.data);
+
+            const statusBox = document.getElementById('action-status-box');
+            if (json.data.status === 'done') {
+              clearInterval(pollInterval);
+              pollInterval = null;
+              if (statusBox) {
+                statusBox.innerHTML = `✅ <strong>CALL COMPLETED</strong>\nElevenLabs Analysis generated (${json.data.call_duration}). Transcript rendered below.`;
+              }
+            }
+          }
+        } catch (e) {
+          console.error('Polling error:', e);
+        }
+      }, 3000);
+    }
+
+    async function triggerLinkedInFromModal() {
+      if (!activeLead) return;
+      const statusBox = document.getElementById('action-status-box');
+      statusBox.className = 'status-toast active';
+      statusBox.innerHTML = `Connecting to Needle MCP...\nFetching tailored message for ${activeLead.contactName || activeLead.name}...`;
+
+      const isTarget = activeLead.isDemoTarget || (activeLead.id === 'mohamed-zahrouni-hvac-installation-gmbh');
+      let targetIdentity = activeLead?.linkedinSlug;
+      if (!targetIdentity && activeLead?.linkedin) {
+        targetIdentity = activeLead.linkedin.replace(/\/+$/, '').split('/').pop();
+      }
+      if (!targetIdentity) {
+        targetIdentity = isTarget ? 'mohamed-zahrouni-6b304a238' : (activeLead.id || 'lead');
+      }
+      const targetContact = activeLead.contactName || (isTarget ? 'Mohamed Zahrouni' : 'Geschäftsführung');
+
+      try {
+        const prevRes = await fetch('/api/linkedin/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            identity: targetIdentity,
+            company_name: activeLead?.name,
+            contact_name: targetContact,
+            city: activeLead?.address?.city || 'Deutschland',
+            technicians: activeLead?.estimate?.technicians?.value || 10
+          })
+        });
+        const prevData = await prevRes.json();
+        const messageText = prevData.text;
+
+        statusBox.innerHTML = `Sending direct message to ${targetContact} (${activeLead.name}) via Needle connected account...`;
+
+        const sendRes = await fetch('/api/linkedin/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            identity: targetIdentity,
+            company_name: activeLead?.name,
+            contact_name: targetContact,
+            text: messageText
+          })
+        });
+        const sendData = await sendRes.json();
+
+        if (sendData.success) {
+          statusBox.innerHTML = `✅ <strong>LINKEDIN MESSAGE DELIVERED VIA NEEDLE</strong>\nRecipient: ${targetContact} (${activeLead.name})\nMessage text: "${messageText}"`;
+          activeLead.linkedin_summary = sendData.summary;
+          renderConversationHistory(sendData.summary);
+        } else {
+          statusBox.innerText = `Needle response: ${JSON.stringify(sendData.needle_response || sendData)}`;
+        }
+      } catch (err) {
+        statusBox.innerText = `LinkedIn dispatch error: ${err}`;
+      }
+    }
+
+    // Initialize
+    loadData();
+  </script>
+</body>
+</html>
